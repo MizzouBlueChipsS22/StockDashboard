@@ -27,12 +27,13 @@ const NotFound = () => (
             flexDirection: 'column'
           }}
         >
-          <Box sx={{ textAlign: 'center' }}>
-            <img
-              alt="Go to pro"
-              src="/static/images/404.png"
-            />
-          </Box>
+          <Typography
+            align="center"
+            color="textPrimary"
+            variant="h1"
+          >
+            404: The page you are looking for isn’t here
+          </Typography>
           <Typography
             align="center"
             color="textPrimary"
@@ -41,6 +42,18 @@ const NotFound = () => (
             You either tried some shady route or you came here by mistake.
             Whichever it is, try using the navigation
           </Typography>
+          <Box sx={{ textAlign: 'center' }}>
+            <img
+              alt="Under development"
+              src="/static/images/undraw_page_not_found_su7k.svg"
+              style={{
+                marginTop: 50,
+                display: 'inline-block',
+                maxWidth: '100%',
+                width: 560
+              }}
+            />
+          </Box>
           <NextLink
             href="/"
             passHref

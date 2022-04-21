@@ -2,11 +2,9 @@ import { useState } from 'react';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import PropTypes from 'prop-types';
 import { format } from 'date-fns';
-import { useRouter } from 'next/router';
 import {
   Avatar,
   Box,
-  Button,
   Card,
   Checkbox,
   Table,
@@ -19,30 +17,42 @@ import {
 } from '@mui/material';
 import { getInitials } from '../../utils/get-initials';
 
-export const CustomerListResults = ({ customers,search, ...rest }) => {
+export const CustomerListResults = ({ customers, ...rest }) => {
   const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
 
-  const data = {stocks: [
-    {
-      name: "IBM Common Stock",
-      symbol: "IBM",
-      quantity: 3,
-      dop: "2/3/2022",
-      currentPrice: 128.48,
-      roi: 13.23
-    },
-    {
-      name: "Apple",
-      symbol: "APPL",
-      quantity: 1,
-      dop: "3/7/2022",
-      currentPrice: 165.01,
-      roi: 15.23
+  const handleSelectAll = (event) => {
+    let newSelectedCustomerIds;
+
+    if (event.target.checked) {
+      newSelectedCustomerIds = customers.map((customer) => customer.id);
+    } else {
+      newSelectedCustomerIds = [];
     }
-  ]};
-  const stocks=data.stocks.filter((value)=>value.name.indexOf(search) !== -1)
+
+    setSelectedCustomerIds(newSelectedCustomerIds);
+  };
+
+  const handleSelectOne = (event, id) => {
+    const selectedIndex = selectedCustomerIds.indexOf(id);
+    let newSelectedCustomerIds = [];
+
+    if (selectedIndex === -1) {
+      newSelectedCustomerIds = newSelectedCustomerIds.concat(selectedCustomerIds, id);
+    } else if (selectedIndex === 0) {
+      newSelectedCustomerIds = newSelectedCustomerIds.concat(selectedCustomerIds.slice(1));
+    } else if (selectedIndex === selectedCustomerIds.length - 1) {
+      newSelectedCustomerIds = newSelectedCustomerIds.concat(selectedCustomerIds.slice(0, -1));
+    } else if (selectedIndex > 0) {
+      newSelectedCustomerIds = newSelectedCustomerIds.concat(
+        selectedCustomerIds.slice(0, selectedIndex),
+        selectedCustomerIds.slice(selectedIndex + 1)
+      );
+    }
+
+    setSelectedCustomerIds(newSelectedCustomerIds);
+  };
 
   const handleLimitChange = (event) => {
     setLimit(event.target.value);
@@ -51,65 +61,88 @@ export const CustomerListResults = ({ customers,search, ...rest }) => {
   const handlePageChange = (event, newPage) => {
     setPage(newPage);
   };
-  
-  const router = useRouter();
 
   return (
     <Card {...rest}>
       <PerfectScrollbar>
-        <Box sx={{ minWidth: 500 }}>
+        <Box sx={{ minWidth: 1050 }}>
           <Table>
             <TableHead>
               <TableRow>
+                <TableCell padding="checkbox">
+                  <Checkbox
+                    checked={selectedCustomerIds.length === customers.length}
+                    color="primary"
+                    indeterminate={
+                      selectedCustomerIds.length > 0
+                      && selectedCustomerIds.length < customers.length
+                    }
+                    onChange={handleSelectAll}
+                  />
+                </TableCell>
                 <TableCell>
                   Name
                 </TableCell>
                 <TableCell>
-                  Symbol
+                  Email
                 </TableCell>
                 <TableCell>
-                  Quantity
+                  Location
                 </TableCell>
                 <TableCell>
-                  Date of Purchase
+                  Phone
                 </TableCell>
                 <TableCell>
-                  Current Price
+                  Registration date
                 </TableCell>
-                <TableCell>
-                  ROI
-                </TableCell>
-                <TableCell/>
               </TableRow>
             </TableHead>
             <TableBody>
-              {stocks.slice(0, limit).map((stock) => (
+              {customers.slice(0, limit).map((customer) => (
                 <TableRow
                   hover
-                  key={stock.symbol}
+                  key={customer.id}
+                  selected={selectedCustomerIds.indexOf(customer.id) !== -1}
                 >
-                  <TableCell>
-                    {stock.name}
+                  <TableCell padding="checkbox">
+                    <Checkbox
+                      checked={selectedCustomerIds.indexOf(customer.id) !== -1}
+                      onChange={(event) => handleSelectOne(event, customer.id)}
+                      value="true"
+                    />
                   </TableCell>
                   <TableCell>
-                    {stock.symbol}
+                    <Box
+                      sx={{
+                        alignItems: 'center',
+                        display: 'flex'
+                      }}
+                    >
+                      <Avatar
+                        src={customer.avatarUrl}
+                        sx={{ mr: 2 }}
+                      >
+                        {getInitials(customer.name)}
+                      </Avatar>
+                      <Typography
+                        color="textPrimary"
+                        variant="body1"
+                      >
+                        {customer.name}
+                      </Typography>
+                    </Box>
                   </TableCell>
                   <TableCell>
-                    {stock.quantity}
+                    {customer.email}
                   </TableCell>
                   <TableCell>
-                    {stock.dop}
+                    {`${customer.address.city}, ${customer.address.state}, ${customer.address.country}`}
                   </TableCell>
                   <TableCell>
-                    {stock.currentPrice}
+                    {customer.phone}
                   </TableCell>
                   <TableCell>
-                    {stock.roi>=0 ? "+"+stock.roi+"%" : stock.roi+"%"}
-                  </TableCell>
-                  <TableCell>
-                    <Button onClick={()=>router.push('/buy-sell')}>
-                      Buy/Sell
-                    </Button>
+                    {format(customer.createdAt, 'dd/MM/yyyy')}
                   </TableCell>
                 </TableRow>
               ))}
@@ -119,7 +152,7 @@ export const CustomerListResults = ({ customers,search, ...rest }) => {
       </PerfectScrollbar>
       <TablePagination
         component="div"
-        count={stocks.length}
+        count={customers.length}
         onPageChange={handlePageChange}
         onRowsPerPageChange={handleLimitChange}
         page={page}
