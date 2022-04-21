@@ -101,7 +101,7 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx"
-, "src/components/customer/customer-list-results.js"  ],
+, "src/components/buy-sell/buy-sell-results.js"  ],
   "exclude": [
     "node_modules"
   ]
