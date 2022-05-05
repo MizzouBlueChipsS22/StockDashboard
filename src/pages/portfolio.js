@@ -10,7 +10,7 @@ import React from 'react';
 import { Container, Grid, Paper, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
-import { PieSeries, Chart, Title, Legend } from '@devexpress/dx-react-chart-material-ui';
+import { PieSeries, Chart, Title, Legend} from '@devexpress/dx-react-chart-material-ui';
 import { Animation } from '@devexpress/dx-react-chart';
 
 //Function for putting data in table
@@ -48,7 +48,7 @@ const PortfolioRoot = () => (
           <Grid item xs={12}>
             <Box
               sx={{
-                backgroundColor: "darkcyan",
+                backgroundColor: "lightgrey",
                 height: 500,
                 borderRadius: "5%",
                 margin: '10px 0px 0px 0px'
@@ -93,20 +93,19 @@ const PortfolioRoot = () => (
           <Grid item xs={12} md={6}>
           <Box
               sx={{
-                backgroundColor: "lightslategrey",
+                backgroundColor: "offwhite",
                 height: 500
               }}
               >
                 <Typography
                   align='center'
                 >
-                  2
                 </Typography>
                 <Paper variant='outlined' elevation={6}>
                   <Chart
                     data={data}
                   >
-                    <PieSeries valueField='value' argumentField='argument' />
+                    <PieSeries valueField='value' argumentField='argument' innerRadius={0.65}/>
                     <Title text='Stock Portfolio'/>
                     <Legend/>
                     <Animation/>
