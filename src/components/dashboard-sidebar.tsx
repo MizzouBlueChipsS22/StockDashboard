@@ -20,11 +20,6 @@ import { NavItem } from './nav-item';
 
 const items = [
   {
-    href: '/',
-    icon: (<ChartBarIcon fontSize="small" />),
-    title: 'Dashboard'
-  },
-  {
     href: '/buy-sell',
     icon: (<PlusMinusIcon fontSize="small" />),
     title: 'Buy/Sell Stocks'

@@ -83,7 +83,7 @@ const Login = () => {
       }
 
       if(flag==1&&pflag==1){
-        router.push('/');
+        router.push('/portfolio');
       }
       
     }
