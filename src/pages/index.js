@@ -9,6 +9,7 @@ import { customers } from '../__mocks__/customers';
 export default class Portfolio extends React.Component {
   constructor(props) {
     super(props);
+    // this.socket = socketIO('ipaddress of server:65430');
   }
 
   state = { search: "" }
@@ -16,6 +17,15 @@ export default class Portfolio extends React.Component {
   onSearchChange = (event) => {
     this.setState({search: event.target.value});
   }
+
+  // componentDidMount() {
+  //   this.socket.connect();
+  //   this.socket.on('connect', () => {
+  //     console.log("Connected to Server\n");
+  //   });
+  //   this.socket.on("Example Listener", (arg) => {
+  //   });
+  // }
 
   render() {
     console.log(this.state)

@@ -25,10 +25,20 @@ const rows = [
   createData('CTL', 'Filler', 16.0, 24, 6.0),
   createData('HEL', 'Filler', 3.7, 67, 4.3),
   createData('POO', 'Filler', 16.0, 49, 3.9),
+  createData('ABC', 'Filler', 6.0, 24, 4.0),
+  createData('ABB', 'Filler', 9.0, 37, 4.3),
+  createData('CTL', 'Filler', 16.0, 24, 6.0),
+  createData('HEL', 'Filler', 3.7, 67, 4.3),
+  createData('POO', 'Filler', 16.0, 49, 3.9),
 ];
 
 //Data for pie chart
 const data = [
+  { argument:'Stock1', value:10 },
+  { argument:'Stock2', value:40 },
+  { argument:'Stock3', value:10 },
+  { argument:'Stock4', value:20 },
+  { argument:'Stock5', value:20 },
   { argument:'Stock1', value:10 },
   { argument:'Stock2', value:40 },
   { argument:'Stock3', value:10 },
@@ -45,7 +55,7 @@ const PortfolioRoot = () => (
       </Head>
       <Container>
         <Grid container spacing={6}>
-          <Grid item xs={12}>
+          <Grid item xs={12} md={6}>
             <Box
               sx={{
                 backgroundColor: "lightgrey",
@@ -59,7 +69,7 @@ const PortfolioRoot = () => (
                 >
                   Stocks Owned Table
                 </Typography>
-                <TableContainer>
+                <TableContainer sx={{height: 476}}>
                   <Table>
                     <TableHead>
                       <TableRow>
