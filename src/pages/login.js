@@ -8,12 +8,41 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { Facebook as FacebookIcon } from '../icons/facebook';
 import { Google as GoogleIcon } from '../icons/google';
 
+function setToken(userToken) {
+  sessionStorage.setItem('token', JSON.stringify(userToken));
+}
+function getToken() {
+  const tokenString = sessionStorage.getItem('token');
+  const userToken = JSON.parse(tokenString);
+  return userToken?.token
+}
+
+function auth(token){
+  var flag=0;
+if(token=="demo@devias.io"||token=="will@bluechips.com"||token=="brendan@bluechips.com"||token=="caleb@bluechips.com"||token=="kevin@bluechips.com"){  
+  flag=1;
+  return flag;
+}
+flag=0;
+return flag;
+}
+
+function pauth(token){
+  var flag=0;
+if(token=="demo123"||token=="will123"||token=="brendan123"|token=="caleb123"||token=="kevin123"){  
+  flag=1;
+  return flag;
+}
+flag=0;
+return flag;
+}
+
 const Login = () => {
   const router = useRouter();
   const formik = useFormik({
     initialValues: {
-      email: '',
-      password: ''
+      email: 'demo@devias.io',
+      password: 'Password123'
     },
     validationSchema: Yup.object({
       email: Yup
@@ -30,7 +59,33 @@ const Login = () => {
           'Password is required')
     }),
     onSubmit: () => {
-      router.push('/');
+      //router.push('/');
+      const token = formik.values.email;
+      const pass = formik.values.password;
+      //console.log(token);
+      //console.log(pass);
+      var flag= auth(token);
+      var pflag = pauth(pass);
+      
+
+      console.log("login clicked");
+      //console.log(token);
+      //console.log(flag);
+      //console.log(pflag);
+      //console.log(.email);
+
+      if(flag==0){
+        alert("Invalid Username");
+      }
+
+      if(flag==1&&pflag==0){
+        alert("Invalid Password");
+      }
+
+      if(flag==1&&pflag==1){
+        router.push('/');
+      }
+      
     }
   });
 
@@ -49,6 +104,17 @@ const Login = () => {
         }}
       >
         <Container maxWidth="sm">
+          <NextLink
+            href="/"
+            passHref
+          >
+            <Button
+              component="a"
+              startIcon={<ArrowBackIcon fontSize="small" />}
+            >
+              Dashboard
+            </Button>
+          </NextLink>
           <form onSubmit={formik.handleSubmit}>
             <Box sx={{ my: 3 }}>
               <Typography
@@ -57,7 +123,51 @@ const Login = () => {
               >
                 Sign in
               </Typography>
+              <Typography
+                color="textSecondary"
+                gutterBottom
+                variant="body2"
+              >
+                Sign in on the internal platform
+              </Typography>
             </Box>
+            <Grid
+              container
+              spacing={3}
+            >
+              <Grid
+                item
+                xs={12}
+                md={6}
+              >
+                <Button
+                  color="info"
+                  fullWidth
+                  startIcon={<FacebookIcon />}
+                  onClick={formik.handleSubmit}
+                  size="large"
+                  variant="contained"
+                >
+                  Login with Facebook
+                </Button>
+              </Grid>
+              <Grid
+                item
+                xs={12}
+                md={6}
+              >
+                <Button
+                  fullWidth
+                  color="error"
+                  startIcon={<GoogleIcon />}
+                  onClick={formik.handleSubmit}
+                  size="large"
+                  variant="contained"
+                >
+                  Login with Google
+                </Button>
+              </Grid>
+            </Grid>
             <Box
               sx={{
                 pb: 1,
@@ -69,7 +179,7 @@ const Login = () => {
                 color="textSecondary"
                 variant="body1"
               >
-                login with email address
+                or login with email address
               </Typography>
             </Box>
             <TextField
@@ -110,6 +220,27 @@ const Login = () => {
                 Sign In Now
               </Button>
             </Box>
+            <Typography
+              color="textSecondary"
+              variant="body2"
+            >
+              Don&apos;t have an account?
+              {' '}
+              <NextLink
+                href="/register"
+              >
+                <Link
+                  to="/register"
+                  variant="subtitle2"
+                  underline="hover"
+                  sx={{
+                    cursor: 'pointer'
+                  }}
+                >
+                  Sign Up
+                </Link>
+              </NextLink>
+            </Typography>
           </form>
         </Container>
       </Box>
