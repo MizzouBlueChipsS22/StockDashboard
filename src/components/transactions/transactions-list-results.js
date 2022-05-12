@@ -2,7 +2,6 @@ import { useState } from 'react';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import PropTypes from 'prop-types';
 import { format } from 'date-fns';
-import { useRouter } from 'next/router';
 import {
   Avatar,
   Box,
@@ -19,7 +18,7 @@ import {
 } from '@mui/material';
 import { getInitials } from '../../utils/get-initials';
 
-export const CustomerListResults = ({ customers,search, ...rest }) => {
+export const TransactionListResults = ({ customers,search, ...rest }) => {
   const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
@@ -30,17 +29,33 @@ export const CustomerListResults = ({ customers,search, ...rest }) => {
       symbol: "IBM",
       quantity: 3,
       dop: "2/3/2022",
-      currentPrice: 128.48,
-      roi: 13.23
+      dos: "4/18/2022",
+      roi: 15.23
     },
     {
       name: "Apple",
       symbol: "APPL",
       quantity: 1,
       dop: "3/7/2022",
-      currentPrice: 165.01,
-      roi: 15.23
-    }
+      dos: "4/18/2022",
+      roi: 13.23
+    },
+    {
+      name: "Apple",
+      symbol: "APPL",
+      quantity: 1,
+      dop: "3/6/2022",
+      dos: "3/7/2022",
+      roi: 2.33
+    },
+    {
+      name: "Apple",
+      symbol: "APPL",
+      quantity: 1,
+      dop: "3/3/2022",
+      dos: "3/6/2022",
+      roi: -5.32
+    },
   ]};
   const stocks=data.stocks.filter((value)=>value.name.indexOf(search) !== -1)
 
@@ -51,8 +66,6 @@ export const CustomerListResults = ({ customers,search, ...rest }) => {
   const handlePageChange = (event, newPage) => {
     setPage(newPage);
   };
-  
-  const router = useRouter();
 
   return (
     <Card {...rest}>
@@ -68,18 +81,17 @@ export const CustomerListResults = ({ customers,search, ...rest }) => {
                   Symbol
                 </TableCell>
                 <TableCell>
-                  Quantity
-                </TableCell>
-                <TableCell>
                   Date of Purchase
                 </TableCell>
                 <TableCell>
-                  Current Price
+                  Date of Sale
+                </TableCell>
+                <TableCell>
+                  Quantity
                 </TableCell>
                 <TableCell>
                   ROI
                 </TableCell>
-                <TableCell/>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -95,21 +107,16 @@ export const CustomerListResults = ({ customers,search, ...rest }) => {
                     {stock.symbol}
                   </TableCell>
                   <TableCell>
-                    {stock.quantity}
-                  </TableCell>
-                  <TableCell>
                     {stock.dop}
                   </TableCell>
                   <TableCell>
-                    {stock.currentPrice}
+                    {stock.dos}
+                  </TableCell>
+                  <TableCell>
+                    {stock.quantity}
                   </TableCell>
                   <TableCell>
                     {stock.roi>=0 ? "+"+stock.roi+"%" : stock.roi+"%"}
-                  </TableCell>
-                  <TableCell>
-                    <Button onClick={()=>router.push('/buy-sell')}>
-                      Buy/Sell
-                    </Button>
                   </TableCell>
                 </TableRow>
               ))}
@@ -130,6 +137,5 @@ export const CustomerListResults = ({ customers,search, ...rest }) => {
   );
 };
 
-CustomerListResults.propTypes = {
-  customers: PropTypes.array.isRequired
+TransactionListResults.propTypes = {
 };

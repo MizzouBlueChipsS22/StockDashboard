@@ -43,6 +43,11 @@ const items = [
     href: '/404',
     icon: (<XCircleIcon fontSize="small" />),
     title: 'Error'
+  },
+  {
+    href: '/portfolio',
+    icon: (<UserIcon fontSize="small" />),
+    title: 'User Portfolio'
   }
 ];
 
